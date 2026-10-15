@@ -3,7 +3,6 @@
 // Online (Render): push GitHub → New Web Service → env vars → deploy
 require('dotenv').config();
 const express = require('express');
-const nodemailer = require('nodemailer');
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
@@ -41,12 +40,25 @@ function needAuth(req, res, next) {
   res.status(401).json({ ok: false, error: 'Non autorisé' });
 }
 
-// ---------- Email ----------
-function mailer() {
-  return nodemailer.createTransport({
-    service: 'gmail',
-    auth: { user: process.env.GMAIL_USER, pass: process.env.GMAIL_APP_PASSWORD }
+// ---------- Email via SendGrid API (HTTPS — khdam 3la Render free, bla SMTP) ----------
+async function sendMail(r, accepted) {
+  const m = buildMsg(r, accepted);
+  const fromEmail = process.env.SENDER_EMAIL || 'excelsior.casa.ma@gmail.com';
+  const res = await fetch('https://api.sendgrid.com/v3/mail/send', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + process.env.SENDGRID_API_KEY },
+    body: JSON.stringify({
+      personalizations: [{ to: [{ email: r.email, name: r.name }] }],
+      from: { email: fromEmail, name: 'Hotel Excelsior Casablanca' },
+      reply_to: { email: fromEmail },
+      subject: m.subj,
+      content: [
+        { type: 'text/plain', value: m.text },
+        { type: 'text/html', value: m.html }
+      ]
+    })
   });
+  if (!res.ok) { const t = await res.text(); throw new Error('SendGrid ' + res.status + ': ' + t); }
 }
 function buildMsg(r, accepted) {
   const id = String(r.id).slice(-5);
@@ -76,7 +88,7 @@ ${accepted ? 'تم تأكيد الحجز ديالك.' : 'تم إلغاء الح�
 
 Merci de votre confiance,
 L'equipe Excelsior
-${process.env.GMAIL_USER}`;
+Hotel Excelsior Casablanca — +212 522 222 222`;
   const html =
 `<p>Bonjour ${r.name},</p>
 <p>${accepted ? '<strong>Nous avons le plaisir de confirmer votre r&eacute;servation.</strong>' : 'Nous sommes d&eacute;sol&eacute;s, votre r&eacute;servation a &eacute;t&eacute; annul&eacute;e.'}</p>
@@ -85,16 +97,8 @@ ${process.env.GMAIL_USER}`;
 <li>R&eacute;servation <strong>#${id}</strong> : ${r.room} — du ${r.in} au ${r.out} — ${r.guests} voyageur(s)</li>
 <li>Total : <strong>${r.total} MAD</strong> (paiement &agrave; l'h&ocirc;tel)</li>
 </ul>
-<p>Merci de votre confiance,<br>L'&eacute;quipe Excelsior<br>${process.env.GMAIL_USER}</p>`;
+<p>Merci de votre confiance,<br>L'&eacute;quipe Excelsior<br>Hotel Excelsior Casablanca — +212 522 222 222</p>`;
   return { subj, text, html };
-}
-async function sendMail(r, accepted) {
-  const m = buildMsg(r, accepted);
-  await mailer().sendMail({
-    from: `"Hotel Excelsior Casablanca" <${process.env.GMAIL_USER}>`,
-    to: r.email, replyTo: process.env.GMAIL_USER,
-    subject: m.subj, text: m.text, html: m.html
-  });
 }
 
 // ---------- API publique : créer réservation (depuis site) ----------
@@ -117,7 +121,7 @@ app.post('/api/reservations', (req, res) => {
 
 // ---------- API admin ----------
 app.get('/api/status', (req, res) => {
-  res.json({ ok: true, mailer: !!process.env.GMAIL_USER, user: process.env.GMAIL_USER || null, count: load().length });
+  res.json({ ok: true, mailer: !!process.env.SENDGRID_API_KEY, user: process.env.SENDER_EMAIL || null, count: load().length });
 });
 app.get('/api/reservations', needAuth, (req, res) => {
   res.json({ ok: true, reservations: load() });
