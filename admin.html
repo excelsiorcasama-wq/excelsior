@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Hôtel Excelsior</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body style="background:#f3efe6">
+<div class="admin-wrap">
+  <p><a href="index.html">← Retour site</a></p>
+  <h1>Admin Excelsior</h1>
+  <p style="color:#666">Utilisateur: <b>admin</b> — mot de passe serveur (défaut: <b>excelsior123</b>, à changer en ligne)</p>
+
+  <div id="loginBox" class="form" style="max-width:400px;margin-top:16px">
+    <input id="aUser" placeholder="Utilisateur">
+    <input id="aPass" type="password" placeholder="Mot de passe">
+    <button class="btn btn-dark" onclick="login()">Se connecter</button>
+    <p id="loginErr" style="color:red"></p>
+  </div>
+
+  <div id="dash" style="display:none">
+    <p id="srvStatus" style="font-size:14px">Serveur: ... <span id="srcBadge"></span></p>
+    <div class="stats">
+      <div class="stat"><strong id="sTotal">0</strong><br>Réservations</div>
+      <div class="stat"><strong id="sNuits">0</strong><br>Nuitées</div>
+      <div class="stat"><strong id="sCA">0</strong><br>MAD estimé</div>
+      <div class="stat"><strong id="sAtt">0</strong><br>En attente</div>
+    </div>
+    <div class="form" style="margin:16px 0">
+      <h3>📧 Envoi email</h3>
+      <p style="font-size:13px;color:#666">Accept = email auto via serveur. Ila serveur tafya, ghadi y7el Gmail wajed.</p>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn btn-dark" onclick="exportCSV()">Export CSV</button>
+      <button class="btn btn-gold" onclick="logout()">Déconnexion</button>
+      <button class="btn" style="background:#fdd" onclick="clearAll()">Tout effacer</button>
+    </div>
+    <div style="overflow-x:auto">
+    <table class="table"><thead><tr><th>ID</th><th>Client</th><th>Chambre</th><th>Séjour</th><th>Total</th><th>Statut</th><th>Notifier client</th><th></th></tr></thead>
+    <tbody id="rows"></tbody></table>
+    </div>
+  </div>
+</div>
+<script>
+const KEY='excelsior_reservations';
+const HOTEL='Hôtel Excelsior Casablanca — Place des Nations Unies, +212 522 222 222';
+let MODE='local'; // 'server' | 'local'
+let CACHE=[];
+function token(){return sessionStorage.getItem('exc_token')||'';}
+function authH(){return {'Content-Type':'application/json','Authorization':'Bearer '+token()};}
+function getLocal(){try{return JSON.parse(localStorage.getItem(KEY)||'[]');}catch(e){return[];}}
+function saveLocal(a){localStorage.setItem(KEY,JSON.stringify(a));}
+
+async function login(){
+  const u=document.getElementById('aUser').value.trim();
+  const p=document.getElementById('aPass').value;
+  // 1) Serveur (online)
+  try{
+    const res=await fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:p})});
+    const j=await res.json();
+    if(j.ok&&u==='admin'){sessionStorage.setItem('exc_token',j.token);sessionStorage.setItem('exc_auth','1');MODE='server';show();return;}
+    throw 0;
+  }catch(e){
+    // 2) Fallback local (serveur tafya)
+    if(u==='admin'&&p==='excelsior123'){sessionStorage.setItem('exc_auth','1');MODE='local';show();}
+    else document.getElementById('loginErr').textContent='Identifiants incorrects';
+  }
+}
+function logout(){sessionStorage.removeItem('exc_auth');sessionStorage.removeItem('exc_token');location.reload();}
+function show(){
+  document.getElementById('loginBox').style.display='none';
+  document.getElementById('dash').style.display='block';
+  checkServer(); render();
+}
+async function checkServer(){
+  const el=document.getElementById('srvStatus');
+  try{
+    const res=await fetch('/api/status'); const j=await res.json();
+    if(j.ok){MODE='server';
+      el.innerHTML=`Serveur: <b style="color:green">✅ connecté (${j.user||''}, ${j.count} rés.) — Accept = email auto</b>`;
+    } else throw 0;
+  }catch(e){MODE='local';
+    el.innerHTML=`Serveur: <b style="color:orange">⚠️ local — données navigateur. Bach twli online: deploy Render (chof README-DEPLOY)</b>`;}
+}
+function acceptMsg(r,accepted){
+  const id=String(r.id).slice(-5);
+  return `Bonjour ${r.name},\n\n${accepted?'✅ RÉSERVATION CONFIRMÉE':'❌ RÉSERVATION ANNULÉE'}\n\n${HOTEL}\nRéservation #${id}\nChambre: ${r.room} | Arrivée: ${r.in} | Départ: ${r.out} | Voyageurs: ${r.guests}\nTotal: ${r.total} MAD (paiement à l'hôtel)\n\nمرحباً ${r.name}،\n${accepted?'تم قبول الحجز ديالك ✅':'تم إلغاء الحجز ❌'}\nالغرفة: ${r.room} | الوصول: ${r.in} | المغادرة: ${r.out} | المجموع: ${r.total} درهم (الخلاص في الفندق)\n\nMerci / شكراً`;
+}
+function waLink(r,accepted){
+  let phone=(r.phone||'').replace(/[^0-9]/g,'');
+  if(phone.startsWith('0')) phone='212'+phone.slice(1);
+  return 'https://wa.me/'+phone+'?text='+encodeURIComponent(acceptMsg(r,accepted));
+}
+function mailLink(r,accepted){
+  const subject=accepted?`Confirmation réservation Excelsior #${String(r.id).slice(-5)}`:`Réservation Excelsior #${String(r.id).slice(-5)}`;
+  return 'mailto:'+encodeURIComponent(r.email)+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(acceptMsg(r,accepted));
+}
+async function fetchAll(){
+  if(MODE==='server'){
+    try{
+      const res=await fetch('/api/reservations',{headers:authH()});
+      const j=await res.json();
+      if(j.ok){CACHE=j.reservations;return CACHE;}
+    }catch(e){MODE='local';}
+  }
+  CACHE=getLocal(); return CACHE;
+}
+async function render(){
+  const all=await fetchAll();
+  document.getElementById('sTotal').textContent=all.length;
+  document.getElementById('sCA').textContent=all.reduce((s,r)=>s+(r.total||0),0);
+  document.getElementById('sAtt').textContent=all.filter(r=>r.status==='En attente').length;
+  document.getElementById('sNuits').textContent=all.length;
+  document.getElementById('rows').innerHTML=all.map(r=>{
+    const tick=r.notified?` <small style="color:green">✓ envoyé (${r.notified} ${r.notifiedAt||''})</small>`:` <small style="color:orange">✗ pas encore notifié</small>`;
+    return `<tr>
+    <td>#${String(r.id).slice(-5)}<br><small>${r.created||''}</small></td>
+    <td><b>${r.name||''}</b><br><small>${r.email||''}</small><br><small>${r.phone||''}</small>${tick}</td>
+    <td>${r.room||''} (${r.guests||''}p)</td><td>${r.in||''} → ${r.out||''}</td><td><b>${r.total||0} MAD</b></td>
+    <td><select onchange="setStatus(${r.id},this.value)">
+      <option ${r.status==='En attente'?'selected':''}>En attente</option>
+      <option ${r.status==='Confirmée'?'selected':''}>Confirmée</option>
+      <option ${r.status==='Annulée'?'selected':''}>Annulée</option>
+    </select></td>
+    <td style="white-space:nowrap">
+      <button onclick="notifyAgain(${r.id},'mail')" title="Renvoyer email">📧 Email</button>
+      <button onclick="notifyAgain(${r.id},'wa')" title="Envoyer WhatsApp">💬 WhatsApp</button>
+    </td>
+    <td><button onclick="del(${r.id})">🗑</button></td></tr>`;
+  }).join('')||'<tr><td colspan=8>Aucune réservation.</td></tr>';
+}
+async function setStatus(id,v){
+  if(MODE==='server'){
+    try{
+      await fetch('/api/reservations/'+id,{method:'PATCH',headers:authH(),body:JSON.stringify({status:v})});
+      render(); return;
+    }catch(e){MODE='local';}
+  }
+  // Fallback local + mailto
+  const a=getLocal();const r=a.find(x=>x.id===id);if(!r)return;
+  r.status=v;
+  if(v==='Confirmée'||v==='Annulée'){
+    const accepted=v==='Confirmée';
+    r.notified='mailto';r.notifiedAt=new Date().toLocaleString();
+    saveLocal(a);render();
+    window.open(mailLink(r,accepted),'_blank');
+    if(confirm('Email préparé dans ta boîte mail.\nEnvoyer aussi sur WhatsApp ('+(r.phone||'?')+') ?')) window.open(waLink(r,accepted),'_blank');
+    return;
+  }
+  saveLocal(a);render();
+}
+async function notifyAgain(id,how){
+  const r=(CACHE||[]).find(x=>x.id===id);if(!r)return;
+  const accepted=r.status!=='Annulée';
+  if(how==='wa'){window.open(waLink(r,accepted),'_blank');return;}
+  if(MODE==='server'){
+    try{
+      const res=await fetch('/api/reservations/'+id+'/notify',{method:'POST',headers:authH()});
+      if(res.ok){alert('Email tssift l '+r.email+' ✓');render();return;}
+      throw 0;
+    }catch(e){/* fallback mailto */}
+  }
+  window.open(mailLink(r,accepted),'_blank');
+  if(MODE==='local'){const a=getLocal();const x=a.find(y=>y.id===id);if(x){x.notified='mailto';x.notifiedAt=new Date().toLocaleString();saveLocal(a);render();}}
+}
+async function del(id){
+  if(!confirm('Supprimer?'))return;
+  if(MODE==='server'){
+    try{await fetch('/api/reservations/'+id,{method:'DELETE',headers:authH()});render();return;}
+    catch(e){MODE='local';}
+  }
+  saveLocal(getLocal().filter(x=>x.id!==id));render();
+}
+async function clearAll(){
+  if(!confirm('Tout effacer?'))return;
+  if(MODE==='server'){
+    const all=await fetchAll();
+    for(const r of all){try{await fetch('/api/reservations/'+r.id,{method:'DELETE',headers:authH()});}catch(e){}}
+    render();return;
+  }
+  localStorage.removeItem(KEY);render();
+}
+async function exportCSV(){
+  const a=await fetchAll();if(!a.length)return alert('Vide');
+  const csv='id;name;phone;email;room;in;out;guests;total;status;notified\n'+a.map(r=>[r.id,r.name,r.phone,r.email,r.room,r.in,r.out,r.guests,r.total,r.status,r.notified||''].join(';')).join('\n');
+  const b=new Blob([csv],{type:'text/csv'});const u=URL.createObjectURL(b);
+  const l=document.createElement('a');l.href=u;l.download='reservations-excelsior.csv';l.click();
+}
+if(sessionStorage.getItem('exc_auth')==='1'){MODE=sessionStorage.getItem('exc_token')?'server':'local';show();}
+</script>
+</body>
+</html>

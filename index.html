@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hôtel Excelsior Casablanca — Place des Nations Unies depuis 1916 | فندق إكسلسيور الدار البيضاء</title>
+<meta name="description" content="Hôtel Excelsior Casablanca, hôtel historique depuis 1916 au cœur de la Place des Nations Unies. فندق إكسلسيور الدار البيضاء. Réservez votre séjour.">
+<link rel="stylesheet" href="style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="header" id="header">
+  <div class="container nav-wrap">
+    <a href="index.html" class="logo">EXCELSIOR <span>CASABLANCA</span></a>
+    <nav class="nav" id="nav">
+      <a href="#accueil" data-fr="Accueil" data-en="Home" data-ar="الرئيسية">Accueil</a>
+      <a href="#hotel" data-fr="L'Hôtel" data-en="The Hotel" data-ar="الفندق">L'Hôtel</a>
+      <a href="#exterieur" data-fr="Extérieur" data-en="Exterior" data-ar="من الخارج">Extérieur</a>
+      <a href="#chambres" data-fr="Chambres" data-en="Rooms" data-ar="الغرف">Chambres</a>
+      <a href="#services" data-fr="Services" data-en="Services" data-ar="الخدمات">Services</a>
+      <a href="#galerie" data-fr="Galerie" data-en="Gallery" data-ar="الصور">Galerie</a>
+      <a href="#avis" data-fr="Avis" data-en="Reviews" data-ar="آراء">Avis</a>
+      <a href="#contact" data-fr="Contact" data-en="Contact" data-ar="اتصل بنا">Contact</a>
+      <a href="#reservation" class="btn btn-gold" data-fr="Réserver" data-en="Book Now" data-ar="احجز الآن">Réserver</a>
+    </nav>
+    <div class="header-actions">
+      <div class="lang-switch">
+        <button class="lang-btn active" data-lang="fr">FR</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="ar">عربي</button>
+      </div>
+      <button class="burger" id="burger">☰</button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section id="accueil" class="hero">
+  <div class="hero-overlay"></div>
+  <div class="container hero-content">
+    <p class="hero-top" data-fr="★ ★ ★ ★ — Depuis 1916 — Place des Nations Unies" data-en="★ ★ ★ ★ — Since 1916 — United Nations Square" data-ar="★ ★ ★ ★ — منذ 1916 — ساحة الأمم المتحدة">★ ★ ★ ★ — Depuis 1916 — Place des Nations Unies</p>
+    <h1 data-fr="Hôtel Excelsior" data-en="Excelsior Hotel" data-ar="فندق إكسلسيور">Hôtel Excelsior</h1>
+    <p class="hero-sub" data-fr="Joyau Art Déco au cœur de Casablanca, à 2 min de la Médina et 30 min de l'aéroport." data-en="Art Deco gem in the heart of Casablanca, 2 min from the Medina, 30 min from the airport." data-ar="جوهرة معمارية في قلب الدار البيضاء، دقيقتين من المدينة القديمة و 30 دقيقة من المطار.">Joyau Art Déco au cœur de Casablanca, à 2 min de la Médina et 30 min de l'aéroport.</p>
+    <div class="hero-btns">
+      <a href="#reservation" class="btn btn-gold" data-fr="Réserver votre séjour" data-en="Book your stay" data-ar="احجز إقامتك">Réserver votre séjour</a>
+      <a href="#exterieur" class="btn btn-outline" data-fr="Voir l'hôtel de l'extérieur" data-en="See the hotel from outside" data-ar="شوف الفندق من برا">Voir l'hôtel de l'extérieur</a>
+    </div>
+    <div class="hero-infos">
+      <div><strong>33.5962°N, 7.6164°W</strong><span data-fr="Centre-ville Casa" data-en="Downtown Casa" data-ar="وسط المدينة">Centre-ville Casa</span></div>
+      <div><strong>4.3/5</strong><span>Google Maps · 1200+ avis</span></div>
+      <div><strong>24/7</strong><span data-fr="Réception" data-en="Front desk" data-ar="الاستقبال">Réception</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING BAR -->
+<div class="container booking-bar">
+  <form id="quickSearch">
+    <div><label data-fr="Arrivée" data-en="Check-in" data-ar="الوصول">Arrivée</label><input type="date" id="qIn" required></div>
+    <div><label data-fr="Départ" data-en="Check-out" data-ar="المغادرة">Départ</label><input type="date" id="qOut" required></div>
+    <div><label data-fr="Chambre" data-en="Room" data-ar="الغرفة">Chambre</label>
+      <select id="qRoom">
+        <option value="single">Single Room — 650 MAD</option>
+        <option value="double">Double Room (2 personnes) — 950 MAD</option>
+        <option value="suite">Suite Excelsior — 1500 MAD</option>
+      </select>
+    </div>
+    <div><label data-fr="Voyageurs" data-en="Guests" data-ar="المسافرون">Voyageurs</label>
+      <select id="qGuests"><option>1</option><option selected>2</option><option>3</option><option>4</option></select>
+    </div>
+    <button type="submit" class="btn btn-gold" data-fr="Vérifier" data-en="Check" data-ar="تحقق">Vérifier</button>
+  </form>
+  <p id="quickResult" class="quick-result"></p>
+</div>
+
+<!-- HOTEL -->
+<section id="hotel" class="section">
+  <div class="container grid2">
+    <div>
+      <p class="kicker" data-fr="Notre histoire" data-en="Our story" data-ar="قصتنا">Notre histoire</p>
+      <h2 data-fr="Un monument de Casablanca depuis 1916" data-en="A Casablanca landmark since 1916" data-ar="معلمة تاريخية في الدار البيضاء منذ 1916">Un monument de Casablanca depuis 1916</h2>
+      <p data-fr="Construit entre 1914 et 1916 par l'architecte Hippolyte Delaporte sur l'ancienne Place de France (aujourd'hui Place des Nations Unies), l'Hôtel Excelsior est l'un des premiers grands hôtels de Casablanca. Façade classée, patio mauresque, escalier en marbre : le charme d'hier avec le confort d'aujourd'hui." data-en="Built 1914–1916 by architect Hippolyte Delaporte on the former Place de France (now United Nations Square), the Excelsior is one of Casablanca's first grand hotels. Listed facade, Moorish patio, marble staircase: yesterday's charm with today's comfort." data-ar="بُني بين 1914 و 1916 من طرف المهندس هيبوليت ديلابورت في ساحة فرنسا قديماً (ساحة الأمم المتحدة اليوم)، فندق إكسلسيور من أقدم وأشهر فنادق الدار البيضاء. واجهة تاريخية، فناء مغربي، درج من الرخام: سحر الماضي مع راحة اليوم.">Construit entre 1914 et 1916 par l'architecte Hippolyte Delaporte...</p>
+      <ul class="checklist">
+        <li data-fr="📍 Place des Nations Unies, 20000 Casablanca" data-en="📍 United Nations Square, 20000 Casablanca" data-ar="📍 ساحة الأمم المتحدة، 20000 الدار البيضاء">📍 Place des Nations Unies, 20000 Casablanca</li>
+        <li data-fr="🚇 Tram T1 : arrêt Nations Unies — 1 min à pied" data-en="🚇 Tram T1: Nations Unies stop — 1 min walk" data-ar="🚇 طرامواي T1: محطة الأمم المتحدة — دقيقة على الرجل">🚇 Tram T1 : arrêt Nations Unies — 1 min à pied</li>
+        <li data-fr="✈️ Aéroport CMN — 30 min en taxi / train" data-en="✈️ CMN Airport — 30 min by taxi / train" data-ar="✈️ مطار محمد الخامس — 30 دقيقة بالطاكسي / القطار">✈️ Aéroport CMN — 30 min en taxi / train</li>
+      </ul>
+      <a class="link-gold" href="https://www.google.com/maps/search/?api=1&query=H%C3%B4tel+Excelsior+Place+des+Nations+Unies+Casablanca" target="_blank" data-fr="Voir sur Google Maps →" data-en="View on Google Maps →" data-ar="شوف في خرائط جوجل →">Voir sur Google Maps →</a>
+    </div>
+    <div class="img-stack">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Hotel_Excelsior%2C_Casablanca.jpg" alt="Hôtel Excelsior de l'extérieur - photo réelle">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/Casablanca-HotelExcelsior_1931.jpg" alt="Excelsior 1931" class="img2">
+      <p class="credit">Photos réelles : Wikimedia Commons (CC BY-SA)</p>
+    </div>
+  </div>
+</section>
+
+<!-- EXTERIEUR / PHOTOS REELLES -->
+<section id="exterieur" class="section bg-cream">
+  <div class="container">
+    <p class="kicker center" data-fr="L'hôtel de l'extérieur — photos réelles" data-en="The hotel from outside — real photos" data-ar="الفندق من الخارج — صور حقيقية">L'hôtel de l'extérieur — photos réelles</p>
+    <h2 class="center" data-fr="À quoi ressemble l'Excelsior depuis la place" data-en="What the Excelsior looks like from the square" data-ar="كيف كيبان إكسلسيور من الساحة">À quoi ressemble l'Excelsior depuis la place</h2>
+    <p class="center muted-dark" data-fr="Photos documentaires libres (Wikimedia Commons). Cliquez pour agrandir." data-en="Free documentary photos (Wikimedia Commons). Click to enlarge." data-ar="صور وثائقية حرة (ويكيميديا). كليكي باش تكبري.">Photos documentaires libres (Wikimedia Commons). Cliquez pour agrandir.</p>
+
+    <div class="ext-main">
+      <figure>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Hotel_Excelsior%2C_Casablanca.jpg" alt="Façade actuelle Hôtel Excelsior Casablanca" loading="lazy">
+        <figcaption data-fr="Façade actuelle, côté Place des Nations Unies (photo moderne)" data-en="Current facade, United Nations Square side (modern photo)" data-ar="الواجهة الحالية، جهة ساحة الأمم المتحدة (صورة حديثة)">Façade actuelle, côté Place des Nations Unies (photo moderne)</figcaption>
+      </figure>
+      <figure>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/65/1000255G_%287609032172%29.jpg" alt="Excelsior vu de la rue" loading="lazy">
+        <figcaption data-fr="Vue de rue — arcades et balcons néo-mauresques" data-en="Street view — neo-Moorish arcades and balconies" data-ar="منظر من الزنقة — أقواس وشرفات مغربية">Vue de rue — arcades et balcons néo-mauresques</figcaption>
+      </figure>
+    </div>
+
+    <div class="ext-grid">
+      <figure>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/f/f0/62_casablanca_hotel_excelsior_place_de_france.jpg" alt="Carte postale ancienne Place de France" loading="lazy">
+        <figcaption data-fr="Carte postale ancienne — Place de France" data-en="Old postcard — Place de France" data-ar="بطاقة بريدية قديمة — ساحة فرنسا">Carte postale ancienne — Place de France</figcaption>
+      </figure>
+      <figure>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/Casablanca-HotelExcelsior_1931.jpg" alt="Hôtel en 1931" loading="lazy">
+        <figcaption data-fr="L'hôtel en 1931" data-en="The hotel in 1931" data-ar="الفندق سنة 1931">L'hôtel en 1931</figcaption>
+      </figure>
+      <figure>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/1/12/Casablanca-PlaceFrance-Excelsior_1950.jpg" alt="Place de France 1950" loading="lazy">
+        <figcaption data-fr="Place de France, vers 1950" data-en="Place de France, circa 1950" data-ar="ساحة فرنسا حوالي 1950">Place de France, vers 1950</figcaption>
+      </figure>
+      <figure>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Casablanca_-_vue_prise_de_l%27H%C3%B4tel_Excelsior_-_btv1b9054532m.jpg" alt="Vue depuis l'hôtel" loading="lazy">
+        <figcaption data-fr="Vue prise depuis l'hôtel (archives BnF)" data-en="View taken from the hotel (BnF archives)" data-ar="منظر من الفندق (أرشيف)">Vue prise depuis l'hôtel (archives BnF)</figcaption>
+      </figure>
+    </div>
+    <p class="credit center">© Wikimedia Commons — CC BY-SA / Domaine public — <a href="https://commons.wikimedia.org/wiki/Category:Hotel_Excelsior_(Casablanca)" target="_blank">voir la source</a></p>
+  </div>
+</section>
+
+<!-- CHAMBRES -->
+<section id="chambres" class="section">
+  <div class="container">
+    <p class="kicker center" data-fr="Nos chambres" data-en="Our rooms" data-ar="الغرف ديالنا">Nos chambres</p>
+    <h2 class="center" data-fr="Choisissez votre confort" data-en="Choose your comfort" data-ar="اختار الراحة ديالك">Choisissez votre confort</h2>
+    <div class="cards">
+      <article class="card">
+        <img src="https://cdn.worldota.net/t/x500/content/3a/c2/3ac28bab6639d0c356c5ec3b8d497a37e82c062e.JPEG" alt="Chambre réelle Excelsior - lit double" loading="lazy">
+        <div class="card-body">
+          <h3 data-fr="Single Room" data-en="Single Room" data-ar="غرفة مفردة">Single Room</h3>
+          <p class="price">650 MAD <span data-fr="/ nuit" data-en="/ night" data-ar="/ ليلة">/ nuit</span></p>
+          <p data-fr="1 personne · Lit simple · Vue ville · Wifi · Climatisation" data-en="1 guest · Single bed · City view · Wifi · AC" data-ar="شخص واحد · سرير مفرد · إطلالة على المدينة · ويفي · مكيف">1 personne · Lit simple · Vue ville · Wifi · Climatisation</p>
+          <p class="real-tag" data-fr="📷 Photo réelle de l'hôtel" data-en="📷 Real hotel photo" data-ar="📷 صورة حقيقية للفندق">📷 Photo réelle de l'hôtel</p>
+          <button class="btn btn-dark pick-room" data-room="single" data-fr="Réserver" data-en="Book" data-ar="احجز">Réserver</button>
+        </div>
+      </article>
+      <article class="card featured">
+        <div class="badge" data-fr="Populaire" data-en="Popular" data-ar="الأكثر طلباً">Populaire</div>
+        <img src="https://cdn.worldota.net/t/x500/content/a3/e9/a3e92fe47cb10f7703cb5733c6a714937c923b40.jpeg" alt="Chambre réelle Excelsior Double" loading="lazy">
+        <div class="card-body">
+          <h3 data-fr="Double Room — 2 personnes" data-en="Double Room — 2 guests" data-ar="غرفة مزدوجة — جوج دناس">Double Room — 2 personnes</h3>
+          <p class="price">950 MAD <span data-fr="/ nuit" data-en="/ night" data-ar="/ ليلة">/ nuit</span></p>
+          <p data-fr="2 personnes · Lit double · Balcon Place Nations Unies · Petit-déj inclus" data-en="2 guests · Double bed · Square balcony · Breakfast included" data-ar="جوج دناس · سرير مزدوج · بالكون على الساحة · الفطور مشمول">2 personnes · Lit double · Balcon Place Nations Unies · Petit-déj inclus</p>
+          <p class="real-tag" data-fr="📷 Photo réelle de l'hôtel" data-en="📷 Real hotel photo" data-ar="📷 صورة حقيقية للفندق">📷 Photo réelle de l'hôtel</p>
+          <button class="btn btn-gold pick-room" data-room="double" data-fr="Réserver" data-en="Book" data-ar="احجز">Réserver</button>
+        </div>
+      </article>
+      <article class="card">
+        <img src="https://cdn.worldota.net/t/x500/content/fb/32/fb32bf70665b3410ee0f0467ab642838e83757ef.JPEG" alt="Suite réelle Excelsior" loading="lazy">
+        <div class="card-body">
+          <h3>Suite</h3>
+          <p class="price">1500 MAD <span data-fr="/ nuit" data-en="/ night" data-ar="/ ليلة">/ nuit</span></p>
+          <p data-fr="3-4 personnes · Salon + Salle de bain privée · Transfert aéroport" data-en="3-4 guests · Lounge + Private bathroom · Airport transfer" data-ar="3-4 دناس · صالون + حمام خاص · نقل للمطار">3-4 personnes · Salon + Salle de bain privée · Transfert aéroport</p>
+          <p class="real-tag" data-fr="📷 Photo réelle de l'hôtel" data-en="📷 Real hotel photo" data-ar="📷 صورة حقيقية للفندق">📷 Photo réelle de l'hôtel</p>
+          <button class="btn btn-dark pick-room" data-room="suite" data-fr="Réserver" data-en="Book" data-ar="احجز">Réserver</button>
+        </div>
+      </article>
+    </div>
+    <p class="credit center">Chambres : photos réelles Hotel Excelsior Palace, 2 Rue El Amraoui Brahim, Casablanca — via Roomundo / WorldOTA</p>
+    <!-- Réception + salles de bain réelles -->
+    <h3 class="center" style="margin-top:36px" data-fr="Réception, restaurant et salles de bain — photos réelles" data-en="Lobby, restaurant & bathrooms — real photos" data-ar="الاستقبال والمطعم والحمامات — صور حقيقية">Réception, restaurant et salles de bain — photos réelles</h3>
+    <div class="ext-grid" style="margin-top:16px">
+      <figure>
+        <img src="https://cdn.worldota.net/t/x500/content/78/24/7824714a6938803a5b5ddf0a45adb7bc19fe1f41.jpeg" alt="Réception / Lobby Excelsior" loading="lazy">
+        <figcaption data-fr="La réception / lobby (24h/24)" data-en="Front desk / lobby (24/7)" data-ar="الاستقبال (24/24)">La réception / lobby (24h/24)</figcaption>
+      </figure>
+      <figure>
+        <img src="https://cdn.worldota.net/t/x500/content/a8/6f/a86f35ce9166031c1c52f99cb922c154be25b2fb.jpeg" alt="Restaurant Excelsior" loading="lazy">
+        <figcaption data-fr="Le restaurant" data-en="The restaurant" data-ar="المطعم">Le restaurant</figcaption>
+      </figure>
+      <figure>
+        <img src="https://cdn.worldota.net/t/x500/content/8b/ac/8bac4f4ea96c9f34b8c5b142a622ebfe871c7834.jpeg" alt="Salle de bain réelle" loading="lazy">
+        <figcaption data-fr="Salle de bain privée" data-en="Private bathroom" data-ar="حمام خاص">Salle de bain privée</figcaption>
+      </figure>
+      <figure>
+        <img src="https://cdn.worldota.net/t/x500/content/14/18/141894ca3dfa2275de3b246ffa5a1af396dd6804.JPEG" alt="Chambre triple réelle" loading="lazy">
+        <figcaption data-fr="Chambre triple — photo réelle" data-en="Triple room — real photo" data-ar="غرفة ثلاثية — صورة حقيقية">Chambre triple — photo réelle</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="section bg-cream">
+  <div class="container">
+    <p class="kicker center" data-fr="Services" data-en="Services" data-ar="الخدمات">Services</p>
+    <h2 class="center" data-fr="Tout pour votre séjour" data-en="Everything for your stay" data-ar="كلشي باش ترتاح">Tout pour votre séjour</h2>
+    <div class="services">
+      <div>🍳<h4 data-fr="Petit-déj marocain" data-en="Moroccan breakfast" data-ar="فطور مغربي">Petit-déj marocain</h4><p>Msemen, baghrir, amlou 7h-11h</p></div>
+      <div>📶<h4>Wifi Fibre</h4><p>200 Mbps gratuit partout</p></div>
+      <div>🍽️<h4 data-fr="Restaurant" data-en="Restaurant" data-ar="مطعم">Restaurant</h4><p data-fr="Cuisine marocaine & française" data-en="Moroccan & French food" data-ar="مطبخ مغربي وفرنسي">Cuisine marocaine & française</p></div>
+      <div>🚕<h4>Transfert</h4><p>Aéroport CMN 24/7</p></div>
+      <div>🧳<h4 data-fr="Conciergerie" data-en="Concierge" data-ar="الاستقبال والخدمات">Conciergerie</h4><p>Hassan II, Medina tours</p></div>
+      <div>🧺<h4 data-fr="Laverie" data-en="Laundry" data-ar="مصبنة">Laverie</h4><p data-fr="Express 4h" data-en="4h express" data-ar="سريع 4 ساعات">Express 4h</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- GALERIE INTERIEUR -->
+<section id="galerie" class="section">
+  <div class="container">
+    <p class="kicker center" data-fr="Galerie intérieur — photos réelles" data-en="Interior gallery — real photos" data-ar="الصور من الداخل — صور حقيقية">Galerie</p>
+    <h2 class="center" data-fr="L'hôtel en images" data-en="The hotel in pictures" data-ar="الفندق بالصور">L'hôtel en images</h2>
+    <p class="center muted-dark" data-fr="Toutes les photos ci-dessous sont les vraies chambres et salles de bain de l'Excelsior." data-en="All photos below are the real Excelsior rooms and bathrooms." data-ar="هاد الصور كاملين ديال الغرف والحمامات الحقيقية ديال إكسلسيور.">Toutes les photos ci-dessous sont les vraies chambres et salles de bain de l'Excelsior.</p>
+    <div class="gallery">
+      <img src="https://cdn.worldota.net/t/x500/content/e5/34/e534f84918c6c019c5870a591d8014e6d3f14b55.JPEG" alt="Chambre réelle Excelsior" loading="lazy">
+      <img src="https://cdn.worldota.net/t/x500/content/ea/7c/ea7cadf3d4736b3fa922a3a1e718b37d2d0f3454.jpeg" alt="Salle de bain réelle Excelsior" loading="lazy">
+      <img src="https://cdn.worldota.net/t/x500/content/40/31/4031cf7883a16f27517488435143769b71483292.JPEG" alt="Salle de bain réelle Excelsior" loading="lazy">
+      <img src="https://cdn.worldota.net/t/x500/content/78/24/7824714a6938803a5b5ddf0a45adb7bc19fe1f41.jpeg" alt="Lobby réel Excelsior" loading="lazy">
+      <img src="https://cdn.worldota.net/t/x500/content/a8/6f/a86f35ce9166031c1c52f99cb922c154be25b2fb.jpeg" alt="Restaurant réel Excelsior" loading="lazy">
+      <img src="https://cdn.worldota.net/t/x500/content/a3/e9/a3e92fe47cb10f7703cb5733c6a714937c923b40.jpeg" alt="Chambre réelle Excelsior Double" loading="lazy">
+    </div>
+    <p class="credit center">Galerie : photos réelles Hotel Excelsior Palace, Casablanca — via Roomundo / WorldOTA</p>
+  </div>
+</section>
+
+<!-- AVIS -->
+<section id="avis" class="section bg-cream">
+  <div class="container">
+    <p class="kicker center" data-fr="Avis" data-en="Reviews" data-ar="آراء">Avis</p>
+    <h2 class="center" data-fr="Ce que disent nos clients" data-en="What our guests say" data-ar="شنو كيقولو ضيوفنا">Ce que disent nos clients</h2>
+    <div class="cards reviews">
+      <div class="card-body">★★★★★<p>"Emplacement parfait, personnel adorable, petit-déj top. On reviendra!"</p><strong>— Salma B., Rabat</strong></div>
+      <div class="card-body">★★★★★<p>"Historic gem! Balcony view over the square is amazing."</p><strong>— James W., London</strong></div>
+      <div class="card-body">★★★★☆<p data-fr="Chambre propre, wifi rapide, tram juste devant. Rapport qualité-prix excellent." data-en="Clean room, fast wifi, tram right in front. Excellent value." data-ar="غرفة نقية، ويفي سريع، الطرام قدام الباب. ثمن مناسب بزاف.">Chambre propre, wifi rapide, tram juste devant. Rapport qualité-prix excellent.</p><strong>— Yassine E., Agadir</strong></div>
+    </div>
+  </div>
+</section>
+
+<!-- RESERVATION -->
+<section id="reservation" class="section bg-dark">
+  <div class="container grid2">
+    <div>
+      <p class="kicker gold" data-fr="Réservation" data-en="Booking" data-ar="الحجز">Réservation</p>
+      <h2 class="white" data-fr="Réservez en 1 minute" data-en="Book in 1 minute" data-ar="حجز في دقيقة">Réservez en 1 minute</h2>
+      <p class="muted" data-fr="Sans paiement en ligne. On vous confirme par WhatsApp / Email sous 2h. Paiement à l'hôtel." data-en="No online payment. We confirm via WhatsApp / Email within 2h. Pay at the hotel." data-ar="بلا خلاص أونلاين. كنأكدو ليك عبر واتساب / إيميل في أقل من ساعتين. الخلاص في الفندق.">Sans paiement en ligne. On vous confirme par WhatsApp / Email sous 2h. Paiement à l'hôtel.</p>
+      <p class="muted">📞 +212 5 22 22 22 22 · 📱 WhatsApp +212 6 61 00 00 00</p>
+      <div id="priceSim" class="price-box">— MAD</div>
+    </div>
+    <form id="bookForm" class="form">
+      <div class="row"><input id="fName" placeholder="Nom complet / Full name / الاسم الكامل" required><input id="fPhone" placeholder="Téléphone / Phone / الهاتف" required></div>
+      <div class="row"><input id="fEmail" type="email" placeholder="Email" required>
+        <select id="fRoom"><option value="single">Single Room — 650 MAD</option><option value="double">Double Room (2 pers.) — 950 MAD</option><option value="suite">Suite — 1500 MAD</option></select></div>
+      <div class="row"><div><label data-fr="Arrivée" data-en="Check-in" data-ar="الوصول">Arrivée</label><input id="fIn" type="date" required></div><div><label data-fr="Départ" data-en="Check-out" data-ar="المغادرة">Départ</label><input id="fOut" type="date" required></div></div>
+      <div class="row"><select id="fGuests"><option value="1">1 personne</option><option value="2" selected>2 personnes</option><option value="3">3 personnes</option><option value="4">4 personnes</option></select>
+      <input id="fCode" placeholder="Code promo (EXCEL10 = -10%)"></div>
+      <textarea id="fMsg" placeholder="Message (étage élevé, lit bébé... / رسالة...)"></textarea>
+      <button class="btn btn-gold" type="submit" data-fr="Confirmer la réservation" data-en="Confirm booking" data-ar="أكد الحجز">Confirmer la réservation</button>
+      <p id="bookOk" class="ok"></p>
+    </form>
+  </div>
+</section>
+
+<!-- CONTACT + MAP -->
+<section id="contact" class="section">
+  <div class="container grid2">
+    <div>
+      <p class="kicker" data-fr="Nous trouver" data-en="Find us" data-ar="فين تلقانا">Nous trouver</p>
+      <h2 data-fr="Hôtel Excelsior" data-en="Excelsior Hotel" data-ar="فندق إكسلسيور">Hôtel Excelsior</h2>
+      <p>Place des Nations Unies<br>20000 Casablanca, Maroc<br><span data-fr="ساحة الأمم المتحدة، الدار البيضاء" data-en="United Nations Square, Casablanca" data-ar="ساحة الأمم المتحدة، الدار البيضاء">Place des Nations Unies, Casablanca</span><br>33.5962°N, 7.6164°W</p>
+      <p>📧 contact@excelsior-casa.ma<br>📞 +212 522 222 222</p>
+      <form id="contactForm" class="form">
+        <input id="cName" placeholder="Nom / الاسم" required>
+        <input id="cEmail" type="email" placeholder="Email" required>
+        <textarea id="cMsg" placeholder="Message / رسالة" required></textarea>
+        <button class="btn btn-dark" data-fr="Envoyer" data-en="Send" data-ar="صيفط">Envoyer</button>
+        <p id="contactOk" class="ok"></p>
+      </form>
+    </div>
+    <div>
+      <iframe title="map" src="https://www.google.com/maps?q=H%C3%B4tel+Excelsior+Place+des+Nations+Unies+Casablanca&z=17&output=embed" width="100%" height="450" style="border:0;border-radius:16px" loading="lazy"></iframe>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container foot">
+    <div><strong>EXCELSIOR CASABLANCA</strong><br><span data-fr="Depuis 1916 — Tous droits réservés" data-en="Since 1916 — All rights reserved" data-ar="منذ 1916 — جميع الحقوق محفوظة">Depuis 1916 — Tous droits réservés</span></div>
+    <div><a href="admin.html">Admin</a> · <a href="#contact">Contact</a></div>
+  </div>
+</footer>
+
+<a href="https://wa.me/212661000000" class="wa" target="_blank">💬</a>
+
+<script src="script.js"></script>
+</body>
+</html>
