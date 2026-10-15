@@ -48,6 +48,14 @@ let MODE='local'; // 'server' | 'local'
 let CACHE=[];
 function token(){return sessionStorage.getItem('exc_token')||'';}
 function authH(){return {'Content-Type':'application/json','Authorization':'Bearer '+token()};}
+async function api(path,opts){
+  opts=opts||{}; opts.headers=Object.assign({},opts.headers||{},authH());
+  let res;
+  try{ res=await fetch(path,opts); }
+  catch(e){ MODE='local'; throw new Error('offline'); }
+  if(res.status===401){ alert('Session expirée — reconnectez-vous'); logout(); throw new Error('auth'); }
+  return res;
+}
 function getLocal(){try{return JSON.parse(localStorage.getItem(KEY)||'[]');}catch(e){return[];}}
 function saveLocal(a){localStorage.setItem(KEY,JSON.stringify(a));}
 
@@ -98,10 +106,11 @@ function mailLink(r,accepted){
 async function fetchAll(){
   if(MODE==='server'){
     try{
-      const res=await fetch('/api/reservations',{headers:authH()});
+      const res=await api('/api/reservations');
       const j=await res.json();
       if(j.ok){CACHE=j.reservations;return CACHE;}
-    }catch(e){MODE='local';}
+      throw new Error('bad');
+    }catch(e){ if(e.message==='auth') throw e; MODE='local'; }
   }
   CACHE=getLocal(); return CACHE;
 }
@@ -132,9 +141,12 @@ async function render(){
 async function setStatus(id,v){
   if(MODE==='server'){
     try{
-      await fetch('/api/reservations/'+id,{method:'PATCH',headers:authH(),body:JSON.stringify({status:v})});
-      render(); return;
-    }catch(e){MODE='local';}
+      const res=await api('/api/reservations/'+id,{method:'PATCH',body:JSON.stringify({status:v})});
+      const j=await res.json();
+      if(j.ok){render();return;}
+      alert('Erreur serveur — réessayez');
+      return;
+    }catch(e){ if(e.message==='auth')return; MODE='local'; }
   }
   // Fallback local + mailto
   const a=getLocal();const r=a.find(x=>x.id===id);if(!r)return;
@@ -155,10 +167,10 @@ async function notifyAgain(id,how){
   if(how==='wa'){window.open(waLink(r,accepted),'_blank');return;}
   if(MODE==='server'){
     try{
-      const res=await fetch('/api/reservations/'+id+'/notify',{method:'POST',headers:authH()});
+      const res=await api('/api/reservations/'+id+'/notify',{method:'POST'});
       if(res.ok){alert('Email tssift l '+r.email+' ✓');render();return;}
-      throw 0;
-    }catch(e){/* fallback mailto */}
+      alert('Erreur envoi — réessayez'); return;
+    }catch(e){ if(e.message==='auth')return; /* offline → fallback mailto te7t */ }
   }
   window.open(mailLink(r,accepted),'_blank');
   if(MODE==='local'){const a=getLocal();const x=a.find(y=>y.id===id);if(x){x.notified='mailto';x.notifiedAt=new Date().toLocaleString();saveLocal(a);render();}}
@@ -166,8 +178,8 @@ async function notifyAgain(id,how){
 async function del(id){
   if(!confirm('Supprimer?'))return;
   if(MODE==='server'){
-    try{await fetch('/api/reservations/'+id,{method:'DELETE',headers:authH()});render();return;}
-    catch(e){MODE='local';}
+    try{await api('/api/reservations/'+id,{method:'DELETE'});render();return;}
+    catch(e){ if(e.message==='auth')return; MODE='local'; }
   }
   saveLocal(getLocal().filter(x=>x.id!==id));render();
 }
@@ -175,7 +187,7 @@ async function clearAll(){
   if(!confirm('Tout effacer?'))return;
   if(MODE==='server'){
     const all=await fetchAll();
-    for(const r of all){try{await fetch('/api/reservations/'+r.id,{method:'DELETE',headers:authH()});}catch(e){}}
+    for(const r of all){try{await api('/api/reservations/'+r.id,{method:'DELETE'});}catch(e){ if(e.message==='auth')return; }}
     render();return;
   }
   localStorage.removeItem(KEY);render();

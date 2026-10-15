@@ -36,7 +36,8 @@ app.post('/api/login', (req, res) => {
 });
 function needAuth(req, res, next) {
   const t = (req.headers.authorization || '').replace('Bearer ', '');
-  if (t && tokens.has(t)) return next();
+  // Token session OU mot de passe admin direct (survit aux restarts Render)
+  if ((t && tokens.has(t)) || (t && t === ADMIN_PASSWORD)) return next();
   res.status(401).json({ ok: false, error: 'Non autorisé' });
 }
 
